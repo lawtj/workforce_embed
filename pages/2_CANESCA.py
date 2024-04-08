@@ -78,9 +78,4 @@ def canescamap():
 
 
 #######################################################################################
-insert_nav()
-
-st.title('Anesthesiologists in East, Central and Southern Africa')
-
-
 st_folium(canescamap(),use_container_width=True, returned_objects=[])

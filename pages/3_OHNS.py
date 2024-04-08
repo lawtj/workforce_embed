@@ -46,29 +46,7 @@ def ohnsmap(country):
     return m
 
 ############################################################################################################
-insert_nav()
-left,center, right = st.columns([1, 3,1])
-with left:
-    st.write('')
 
-with center:
-    st.title('Global ENT/OHNS Workforce')
+ohnsmap = ohnsmap(country)
 
-    st.markdown('''
-                The Global OHNS initiative performed a recent study quantifying the number of otolaryngology-head and neck surgery (OHNS) care clinicians per capita worldwide. This was done by disseminating a cross-sectional electronic survey to professional society leaders, medical licensing boards, public health officials, and practicing OHNS clinicians. 
-                
-                Respondents from 114 countries comprising 84% of the world population estimate a workforce density of 2.19 OHNS clinicians per 100 000 population. Variations were noted by World Health Organization regions and World Bank income groups. 
-                
-                This cross-sectional survey study provides a comprehensive assessment of the global OHNS workforce. These results can guide focused investment in training and policy development to address disparities in the availability of OHNS clinicians. 
-                
-                Below are interactive maps to display the results from this study. 
-                    ''')
-    
-    st.caption('Petrucci, Beatriz, Samuel Okerosi, Rolvix H. Patterson, Sara B. Hobday, Valerie Salano, Christopher J. Waterworth, Robert M. Brody, et al. 2023. [“The Global Otolaryngology-Head and Neck Surgery Workforce.”](https://jamanetwork.com/journals/jamaotolaryngology/fullarticle/2808978) JAMA Otolaryngology-- Head & Neck Surgery, August. https://doi.org/10.1001/jamaoto.2023.2339.')
-
-    ohnsmap = ohnsmap(country)
-
-    st_folium(ohnsmap, use_container_width=True, returned_objects=[])
-
-with right:
-    st.write('')
+st_folium(ohnsmap, use_container_width=True, returned_objects=[])
