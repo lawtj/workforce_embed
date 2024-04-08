@@ -166,12 +166,7 @@ def createnpapmap(gdf):
     m.add_child(linear)
     return m
 
-def writestats(message, col):
-    # if out['last_active_drawing']['properties'][col] is not None:
-    if isinstance(out['last_active_drawing']['properties'][col], float) or isinstance(out['last_active_drawing']['properties'][col], int):
-        st.write(message, round(out['last_active_drawing']['properties'][col],2))
-    else:
-        st.write(message, 'Data not available')
+
 
 if 'mapoption' not in st.session_state:
     st.session_state['mapoption'] = 'Physician Anesthesia Providers (PAP)'
@@ -193,48 +188,66 @@ npapmap = createnpapmap(read_gdf())
 
 mapdict = {'Physician Anesthesia Providers (PAP)': map, 'PAP (2016)':pap2016, 'Nonphysician Anesthesia Providers': npapmap}
 
-left, right = st.columns([0.8,0.2])
 
+header = st.empty()
 
+left, right = st.columns(2)
 with left:
-    # st_folium(m, width=1200, height=800, center=st.session_state['center'], returned_objects=[])
-    out = st_folium(mapdict[st.session_state['mapoption']], center=st.session_state['center'], returned_objects=['last_active_drawing','last_clicked','bounds'], use_container_width=True, height=750,)
-    st.subheader('Global Data Table')
-    st.dataframe(gdf[gdf['Country_x'].notnull()][['Country_x', 'totalpap', 'totalpap_cap', 'physicians2015','physicians2015_cap', 'totalnpap', 'totalnpap_cap', 'nurses2015', 'nurses2015_cap', 'population']],
-         column_config={
-             'Country_x': st.column_config.Column('Country'),
-                'totalpap': st.column_config.Column('Total PAPs'),
-                'totalpap_cap': st.column_config.Column('Total PAP density'),
-                'physicians2015': st.column_config.Column('PAPs (2015)'),
-                'physicians2015_cap': st.column_config.Column('PAP density (2015)'),
-                'totalnpap': st.column_config.Column('Total NPAPs'),
-                'totalnpap_cap': st.column_config.Column('Total NPAP density'),
-                'nurses2015': st.column_config.Column('NPAPs (2015)'),
-                'nurses2015_cap': st.column_config.Column('NPAP density (2015)'),
-                'population': st.column_config.Column('Population')
-         }, use_container_width=True)
-
+    slot_population = st.empty()
+    slot_paps = st.empty()
+    slot_papdensity = st.empty()
+    slot_paps2015 = st.empty()
+    slot_papdensity2015 = st.empty()
 with right:
-    st.selectbox('Select Map', ['Physician Anesthesia Providers (PAP)', 'PAP (2016)','Nonphysician Anesthesia Providers'], key='mapoption')
-    if out['last_active_drawing'] is None:
-        st.write('Please select a country to view statistics.')
+    slot_npaps = st.empty()
+    slot_npapdensity = st.empty()
+    slot_npaps2015 = st.empty()
+    slot_npapdensity2015 = st.empty()
+
+
+def writestats(message, col, slot):
+    # if out['last_active_drawing']['properties'][col] is not None:
+    if isinstance(out['last_active_drawing']['properties'][col], float) or isinstance(out['last_active_drawing']['properties'][col], int):
+        slot.write(message+ str(round(out['last_active_drawing']['properties'][col],2)))
     else:
-        st.subheader(out['last_active_drawing']['properties']['NAME'])
-        if isinstance(out['last_active_drawing']['properties']['population'], float) or isinstance(out['last_active_drawing']['properties']['population'], int):
-            st.write('**Population**: ', round(out['last_active_drawing']['properties']['population']/10,1), ' million')
-        else:
-            st.write('**Population**: ', 'Data not available')
-        writestats('**Total PAPs**: ', 'totalpap')
-        writestats('**Total PAP density**: ', 'totalpap_cap')
-        writestats('**PAP 2015**: ', 'physicians2015')
-        writestats('**PAP density (2015)**: ', 'physicians2015_cap')
-        st.divider()
-        writestats('**Total NPAPs**: ', 'totalnpap')
-        writestats('**Total NPAPs (2015)**: ', 'nurses2015')
-        writestats('**NPAP density**: ', 'totalnpap_cap')
-        writestats('**NPAP density (2015)**: ', 'nurses2015_cap')
-    st.divider()
-    st.caption(mapdescription(st.session_state['mapoption']))
+        slot.write(message+ 'Data not available')
+
+# st_folium(m, width=1200, height=800, center=st.session_state['center'], returned_objects=[])
+out = st_folium(mapdict[st.session_state['mapoption']], center=st.session_state['center'], returned_objects=['last_active_drawing','last_clicked','bounds'], use_container_width=True, height=750,)
+st.subheader('Global Data Table')
+st.dataframe(gdf[gdf['Country_x'].notnull()][['Country_x', 'totalpap', 'totalpap_cap', 'physicians2015','physicians2015_cap', 'totalnpap', 'totalnpap_cap', 'nurses2015', 'nurses2015_cap', 'population']],
+        column_config={
+            'Country_x': st.column_config.Column('Country'),
+            'totalpap': st.column_config.Column('Total PAPs'),
+            'totalpap_cap': st.column_config.Column('Total PAP density'),
+            'physicians2015': st.column_config.Column('PAPs (2015)'),
+            'physicians2015_cap': st.column_config.Column('PAP density (2015)'),
+            'totalnpap': st.column_config.Column('Total NPAPs'),
+            'totalnpap_cap': st.column_config.Column('Total NPAP density'),
+            'nurses2015': st.column_config.Column('NPAPs (2015)'),
+            'nurses2015_cap': st.column_config.Column('NPAP density (2015)'),
+            'population': st.column_config.Column('Population')
+        }, use_container_width=True)
+
+st.selectbox('Select Map', ['Physician Anesthesia Providers (PAP)', 'PAP (2016)','Nonphysician Anesthesia Providers'], key='mapoption')
+if out['last_active_drawing'] is None:
+    header.write('Please select a country to view statistics.')
+else:
+    header.subheader(out['last_active_drawing']['properties']['NAME'])
+    if isinstance(out['last_active_drawing']['properties']['population'], float) or isinstance(out['last_active_drawing']['properties']['population'], int):
+        slot_population.write('**Population**: '+ str(round(out['last_active_drawing']['properties']['population']/10,1))+ ' million')
+    else:
+        slot_population.write('**Population**: '+ 'Data not available')
+    writestats('**Total PAPs**: ', 'totalpap', slot_paps)
+    writestats('**Total PAP density**: ', 'totalpap_cap', slot_papdensity)
+    writestats('**PAP 2015**: ', 'physicians2015', slot_paps2015)
+    writestats('**PAP density (2015)**: ', 'physicians2015_cap', slot_papdensity2015)
+    writestats('**Total NPAPs**: ', 'totalnpap', slot_npaps)
+    writestats('**Total NPAPs (2015)**: ', 'nurses2015', slot_npaps2015)
+    writestats('**NPAP density**: ', 'totalnpap_cap', slot_npapdensity)
+    writestats('**NPAP density (2015)**: ', 'nurses2015_cap', slot_npapdensity2015)
+st.divider()
+st.caption(mapdescription(st.session_state['mapoption']))
 
 
 
