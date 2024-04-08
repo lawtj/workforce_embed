@@ -6,7 +6,6 @@ import pandas as pd
 import geopandas as gpd
 import branca.colormap as cm
 from streamlit_extras.row import row 
-from nav import insert_nav
 
 
 st.set_page_config(layout="wide", page_title='Global Surgery and Anesthesia Workforce Maps', page_icon='🌍', initial_sidebar_state='collapsed')

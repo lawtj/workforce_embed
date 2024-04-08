@@ -6,7 +6,6 @@ import geopandas as gpd
 from streamlit_folium import st_folium
 from folium.plugins import MarkerCluster
 from streamlit_extras.row import row 
-from nav import insert_nav
 import os
 from dotenv import load_dotenv
 
