@@ -185,9 +185,6 @@ def mapdescription(mapoption):
         return 'This map shows the number of Non-physician Anesthesia Providers (NPAP) per 100,000 population. It is also taken from the Global Anesthesia Workforce Survey [published](https://journals.lww.com/anesthesia-analgesia/fulltext/9900/the_global_anesthesia_workforce_survey__updates.788.aspx) in 2024. It includes both Nurse Anesthetists and other cadres of anesthesia provider who are not physicians. \n\n Law, Tyler J., Michael S. Lipnick, Wayne Morriss, Adrian W. Gelb,  et al. 2024. “The Global Anesthesia Workforce Survey: Updates and Trends in the Anesthesia Workforce.” Anesthesia & Analgesia, March, 10.1213/ANE.0000000000006836.'
 
 ################ Layout ################
-insert_nav()
-
-st.title("Global Anesthesia Workforce Map")
 
 map = createmap(read_gdf())
 pap2016 = createmap2016(read_gdf())
