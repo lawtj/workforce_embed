@@ -262,8 +262,6 @@ else:
                      writestring('**NPAP 2015**: ', 'nurses2015') + '<br>' +
                      writestring('**NPAP density (2015)**: ', 'nurses2015_cap'), unsafe_allow_html=True)
 
-st.session_state['popvar'] = out['last_active_drawing']['properties']['population']
-
 st.divider()
 st.caption(mapdescription(st.session_state['mapoption']))
 
