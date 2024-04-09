@@ -10,7 +10,7 @@ st.markdown('''
             **Have a look at our maps:** ''')
 
 st.page_link('app.py',label='🏠 Home')
-st.page_link('pages/1_gaws.py',label='🌍 Global Anesthesia Workforce')
+st.page_link('pages/1_gaws_vertical.py',label='🌍 Global Anesthesia Workforce')
 st.page_link('pages/2_CANESCA.py',label='😷 Anesthesiologists in East, Central and Southern Africa')
 st.page_link('pages/3_OHNS.py',label='👂 Global ENT/OHNS Workforce')
 
